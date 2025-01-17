@@ -40,45 +40,12 @@ void Time_Series::LOAD (std::string file){
 
         if (arr_size == count){ //Check if array size needs to be 2x
             arr_size = 2*arr_size;
-
-            //Make a function for this....
-            double *temp_data = new double[arr_size]; //Create temp data array
-            int *temp_year = new int[arr_size]; //Create temp year array
-
-            for (int i{0}; i < count; i++){ //populating temp arrays with data & years
-                temp_data[i] = arr_data[i];
-                temp_year[i] = arr_year[i];
-            }
-
-            delete[] arr_data; 
-            delete[] arr_year;
-
-            arr_data = temp_data; //assigning arr_data address to the new temp_data address
-            arr_year = temp_year; //assigning arr_year address to the new temp_data address
-            temp_data = nullptr;
-            temp_year = nullptr;
-
+            arr_resize();
         } 
             
         if (arr_size == count/4){ //Check if array size needs to be 1/4x
             arr_size = arr_size/4;
-
-            //Make a function for this
-            double *temp_data = new double[arr_size]; //Create temp data array
-            int *temp_year = new int[arr_size]; //Create temp year array
-
-            for (int i{0}; i < count; i++){ //populating temp arrays with data & years
-                temp_data[i] = arr_data[i];
-                temp_year[i] = arr_year[i];
-            }
-
-            delete[] arr_data; 
-            delete[] arr_year;
-
-            arr_data = temp_data; //assigning arr_data address to the new temp_data address
-            arr_year = temp_year; //assigning arr_year address to the new temp_data address
-            temp_data = nullptr;
-            temp_year = nullptr;
+            arr_resize();
         }
 
         if (data != -1){ //This is filling up the array with valid data
