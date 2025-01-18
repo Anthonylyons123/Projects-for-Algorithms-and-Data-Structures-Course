@@ -14,21 +14,23 @@ class Time_Series {
     void LOAD(std::string file);
     void PRINT();
     void ADD(double data, int year);
-    void UPDATE();
+    void UPDATE(double data, int year);
     double mean(); 
     bool is_monotonic();
     void best_fit(double &m, double &b);
     void EXIT();
 
+    int m_arr_size{2}; //Size of array
+
     private:
-    // DAA for years
+    //DAA for years
     int* arr_year;
     
     //DAA for the data
     double* arr_data;
 
-    int arr_size{2}; //Size of array
-    int count{0}; //Number of elements in the array
+
+    int m_count{0}; //Number of elements in the array
     
     //Series Name & Code
     std::string s_name;
@@ -37,8 +39,7 @@ class Time_Series {
     //Helper functions
     void arr_shift(int temp_val, int year, double data);
     void arr_resize();
+    void does_arr_need_resized();
 }; 
-
-
 
 #endif
