@@ -72,42 +72,39 @@ void Time_Series::ADD(double data, int year){
         return;
     } else {
         if (year < arr_year[0]){ //If year is smaller than the smallest entry put at start of array
+            arr_shift(arr_loc, year, data);
+            count++;
 
-            if (arr_data[arr_loc] == -1){
-                arr_shift(arr_loc, year, data);
-            } else {
-                return;
-            }
-
-        } else if (year > arr_year[count]){ //If year is bigger than the biggest entry put at end of array
-                
-            if (arr_data[arr_loc] == -1){
-                arr_shift(arr_loc, year, data);
-            } else {
-                return;
-            }
+        } else if (year > arr_year[count-1]){ //If year is bigger than the biggest entry put at end of array
+            std::cout << "test";
+            std::cout << data <<std::endl;
+            std::cout << year <<std::endl;
+            arr_data[count] = data;
+            arr_year[count] = year;
+            count++;
 
         } else {
 
+            std::cout << "here";
             for (int i{0}; i < count; i++){ //Finding the loction to input the new data & year
-                if (year == arr_year[i]){
+                if (year < arr_year[i]){
                     arr_loc = i;
+                    break;
                 }
-            break;
+                if (year == arr_year[i]){
+                    std::cout<< "There is already valid data for this year" <<std::endl;
+                    return; //There is already valid data for that year so return
+                }
             }
 
-            if (arr_data[arr_loc] == -1){
-                arr_shift(arr_loc, year, data);
-            } else {
-                return;
-            }
+            arr_shift(arr_loc, year, data);
+            count++;
 
         }
 
     }
 }
 double Time_Series::mean(){ //Computes mean
-    
     double mean_value{0};
 
     if (arr_data[0] == 0){ //Check if there is any data
@@ -134,10 +131,8 @@ void Time_Series::best_fit(double &m, double &b){
 }
 
 void Time_Series::arr_shift(int temp_val, int year, double data){
-    for (int i{count}; i > temp_val; i--){
-        // 
-         // Need to check if 
-        //
+    for (int i{count-1}; i > temp_val; i--){
+
         arr_data[i+1] = arr_data[i];
         arr_year[i+1] = arr_year[i];
     }

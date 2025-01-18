@@ -34,6 +34,7 @@ class Time_Series {
     std::string s_name;
     std::string s_code;
 
+    //Helper functions
     void arr_shift(int temp_val, int year, double data);
     void arr_resize();
 }; 
