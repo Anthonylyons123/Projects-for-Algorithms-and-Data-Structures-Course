@@ -20,21 +20,14 @@ class Time_Series {
     void best_fit(double &m, double &b);
     void EXIT();
 
-    int m_arr_size{2}; //Size of array
-
     private:
-    //DAA for years
-    int* arr_year;
-    
-    //DAA for the data
-    double* arr_data;
-
-
+    // Member Variables
+    int* arr_year; //DAA for years
+    double* arr_data; //DAA for the data
+    int m_arr_size{2}; //Size of array
     int m_count{0}; //Number of elements in the array
-    
-    //Series Name & Code
-    std::string s_name;
-    std::string s_code;
+    std::string s_name; //Series Name
+    std::string s_code; //Series Code
 
     //Helper functions
     void arr_shift(int temp_val, int year, double data);
