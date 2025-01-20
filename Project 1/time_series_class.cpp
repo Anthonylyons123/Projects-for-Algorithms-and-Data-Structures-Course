@@ -142,7 +142,7 @@ double Time_Series::mean(){ //Computes mean
         for (int i{0}; i < m_count; i++){
             mean_value += arr_data[i]; //Geting the total data
         }
-        mean_value == (mean_value/m_count); //Calculating the mean
+        mean_value = (mean_value/m_count); //Calculating the mean
         std::cout << "mean is " << mean_value << std::endl; //If there is data output that result
     }
     return 0;
@@ -199,7 +199,6 @@ void Time_Series::best_fit(double &m, double &b){
 
     std::cout << "slope is " << m << " intercept is " << b <<std::endl;
 }
-
 
 
 // Helper function definitions

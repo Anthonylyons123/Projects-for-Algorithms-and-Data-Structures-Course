@@ -36,6 +36,10 @@ int main(){
             } else {
                 std::cout << "series is not monotonic" <<std::endl;
             }
+        } else if (command == "FIT"){
+            double m{0};
+            double b{0};
+            temp.best_fit(m, b);
         } else if (command == "EXIT"){
             return 0;
         }
