@@ -27,7 +27,7 @@ void Time_Series::LOAD (std::string file){
     arr_data = new double[m_arr_size]; //Making new array's and initalizing them to size 2
     arr_year = new int[m_arr_size];
 
-    int year{1960};
+    int year{1960}; //The first year is 1960
 
     std::string c_n;
     std::string c_cf;
@@ -57,11 +57,11 @@ void Time_Series::LOAD (std::string file){
 }
 
 void Time_Series::PRINT(){
-    if(m_count == 0){
+    if(m_count == 0){ //Checks if there is data to print
         std::cout << "failure" << std::endl;
         return;
     }
-    for (int i{0}; i < m_count; i++){
+    for (int i{0}; i < m_count; i++){ //Print the year and data in this form (year, data)
         std::cout<< "(" <<arr_year[i] << "," << arr_data[i] << ") ";
     }
     std::cout << std::endl;
@@ -114,16 +114,16 @@ void Time_Series::UPDATE(double data, int year){
     }
 
     if (temp_loc == -1){ //If temp_loc doesn't change from -1 in the for loop return because the "new" year doesn't have valid data to update
-        std::cout << "failure" << std::endl;
+        std::cout << "failure" << std::endl; //or m_count == 0
         return; 
     }
 
     if (data == -1){ //Checking if the "new" data is invaild
-        for (int i{temp_loc}; i < m_count-1; i++){
-            arr_data[i] = arr_data[i+1];
+        for (int i{temp_loc}; i < m_count-1; i++){ //If the "new" data is invailid I remove it from the array's
+            arr_data[i] = arr_data[i+1]; 
             arr_year[i] = arr_year[i+1];
         }
-        m_count--;
+        m_count--; //Decrement the count since there is one less item in the arrays
 
     } else { //Updates the data with the "new" data if the data is vaild
         arr_data[temp_loc] = data;
@@ -135,7 +135,7 @@ void Time_Series::UPDATE(double data, int year){
 double Time_Series::mean(){ //Computes mean
     double mean_value{0};
 
-    if (arr_data[0] == 0){ //Check if there is any data
+    if (m_count == 0){ //Check if there is any data
         std::cout << "failure" << std::endl;
         return 0; //If no data return 0
     } else {
@@ -150,8 +150,8 @@ double Time_Series::mean(){ //Computes mean
     
 bool Time_Series::is_monotonic(){ //Is the array sorted
 
-    bool increasing{true}; 
-    bool decreasing{true};
+    bool up{true}; 
+    bool down{true};
 
     if (m_count == 0){ //Returns false if there is no data
         std::cout << "failure" << std::endl;
@@ -160,16 +160,18 @@ bool Time_Series::is_monotonic(){ //Is the array sorted
 
     for (int i{1}; i < m_count; i++){
         if (arr_data[i] > arr_data[i-1]){ //Checks if data is increasing
-            decreasing = false; //If data is increasing then set decresing to false
+            down = false; //If data is increasing then set down to false
         }
         if (arr_data[i] < arr_data[i-1]){ //Checks if data is decreasing
-            increasing = false; ///If data is decreasing then set incresing to false
+            up = false; ///If data is decreasing then set up to false
         }
     }
 
-    if ((decreasing||increasing) == true){ //If one of increasing/decresing is true then the data is monotonic
-        return true;                       //but if both increasing/decreasing are false then at somepoint the data was both 
-    } else {                               //increasing and decreasing and is therefore not monotonic
+    if (up||down){                                          
+        std::cout << "series is monotonic" <<std::endl;     //If one of up/down is true then the data is monotonic
+        return true;                                        //but if both increasing/decreasing are false then at somepoint the data was both 
+    } else {                                                //increasing and decreasing and is therefore not monotonic
+        std::cout << "series is not monotonic" <<std::endl; 
         return false;
     }
 
@@ -188,13 +190,13 @@ void Time_Series::best_fit(double &m, double &b){
         std::cout << "failure" << std::endl;
         return;
     }
-    for (int i{0}; i < m_count; i++){
+    for (int i{0}; i < m_count; i++){ //Finding values for the sum of (x*y), x, y, and (x*x)
         xy_sum += (arr_year[i]*arr_data[i]);
         x_sum += arr_year[i];
         y_sum += arr_data[i];
         xx_sum += (arr_year[i]*arr_year[i]);
     }
-    m = ((m_count*xy_sum)-(x_sum*y_sum))/((m_count*xx_sum)-(x_sum*x_sum));
+    m = ((m_count*xy_sum)-(x_sum*y_sum))/((m_count*xx_sum)-(x_sum*x_sum)); //Using the provided formulas
     b = (y_sum-(m*x_sum))/m_count; 
 
     std::cout << "slope is " << m << " intercept is " << b <<std::endl;

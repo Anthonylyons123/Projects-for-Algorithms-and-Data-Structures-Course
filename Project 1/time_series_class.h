@@ -18,8 +18,7 @@ class Time_Series {
     double mean(); 
     bool is_monotonic();
     void best_fit(double &m, double &b);
-    void EXIT();
-
+    
     private:
     // Member Variables
     int* arr_year; //DAA for years
