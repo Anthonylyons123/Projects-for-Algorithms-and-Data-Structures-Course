@@ -29,29 +29,35 @@ void Time_Series::LOAD (std::string file){
 
     int year{1960}; //The first year is 1960
 
-    std::string c_n;
-    std::string c_cf;
     std::string data_string;
 
     std::ifstream file1 (file); //opens the file                                      
-    std::getline (file1, c_n, ','); //Makes a string with Country Name 
+    std::getline (file1, c_name, ','); //Makes a string with Country Name 
     std::getline (file1, c_cf, ','); //Makes a string with Country Code
     std::getline (file1, s_name, ','); //Makes a string with Series Name
     std::getline (file1, s_code, ','); //Makes a string with Series Code
 
-    while (std::getline (file1, data_string, ',')){ //Takes the data and inputs it into the dynamically allocated data array
-            
-        //I got the std::stod command and c_str() from chatgbt
+    while (std::getline (file1, data_string, ',')){ //Takes the data and inputs it into the dynamically allocated data and year array
+        /*
+            CITATION:
+
+            I got the std::stod command and c_str() from chatgbt
+        */
+       
         double data = std::stod(data_string.c_str()); //Converts the string to double
         does_arr_need_resized(); 
         
         if (data != -1){ //This is filling up the array with valid data
-            //I got the std::stod command and c_str() from chatgbt
+        /*
+            CITATION:
+
+            I got the std::stod command and c_str() from chatgbt
+        */
             arr_data[m_count] = std::stod(data_string.c_str()); //Converts string to float
             arr_year[m_count] = year;
             ++m_count;
         }
-        ++year;
+        ++year; //Increment the year every loop even if there is no valid data
     }
 
 }
@@ -82,19 +88,19 @@ void Time_Series::ADD(double data, int year){
             arr_year[m_count] = year;
             m_count++;
 
-        } else {
+        } else { //Else the year is somewhere in the middle
             for (int i{0}; i < m_count; i++){ //Finding the loction to input the new data & year
                 if (year < arr_year[i]){
                     arr_loc = i;
                     break;
                 }
-                if (year == arr_year[i]){
+                if (year == arr_year[i]){ //Checking if the added year already has valid data
                     std::cout << "failure" << std::endl;
-                    return; //There is already valid data for that year so return
+                    return; 
                 }
             }
 
-            arr_shift(arr_loc, year, data); //Inputing the new data in the array's
+            arr_shift(arr_loc, year, data); //Using helper function to input the new data in the array's and shift the element to the correct loction
             m_count++;
 
         }
@@ -128,11 +134,11 @@ void Time_Series::UPDATE(double data, int year){
     } else { //Updates the data with the "new" data if the data is vaild
         arr_data[temp_loc] = data;
     }
-    does_arr_need_resized();
+    does_arr_need_resized(); //Check if array needs to be resized
     std::cout << "success" << std::endl;
 }
 
-double Time_Series::mean(){ //Computes mean
+double Time_Series::mean(){ 
     double mean_value{0};
 
     if (m_count == 0){ //Check if there is any data
@@ -148,7 +154,7 @@ double Time_Series::mean(){ //Computes mean
     return 0;
 }
     
-bool Time_Series::is_monotonic(){ //Is the array sorted
+bool Time_Series::is_monotonic(){ 
 
     bool up{true}; 
     bool down{true};
@@ -167,7 +173,7 @@ bool Time_Series::is_monotonic(){ //Is the array sorted
         }
     }
 
-    if (up||down){                                          
+    if (up||down == true){                                          
         std::cout << "series is monotonic" <<std::endl;     //If one of up/down is true then the data is monotonic
         return true;                                        //but if both increasing/decreasing are false then at somepoint the data was both 
     } else {                                                //increasing and decreasing and is therefore not monotonic
@@ -181,12 +187,12 @@ void Time_Series::best_fit(double &m, double &b){
     // Year is x
     // Data is y
 
-    double xy_sum{0};
-    double x_sum{0};
-    double y_sum{0};
-    double xx_sum{0};
+    double xy_sum{0}; //sum of x*y
+    double x_sum{0}; //sum of x
+    double y_sum{0}; //sum of y
+    double xx_sum{0}; //sum of x^2
 
-    if (m_count == 0){
+    if (m_count == 0){ //If count is 0 return
         std::cout << "failure" << std::endl;
         return;
     }
@@ -205,7 +211,7 @@ void Time_Series::best_fit(double &m, double &b){
 
 // Helper function definitions
 void Time_Series::arr_shift(int temp_val, int year, double data){
-    for (int i{m_count-1}; i >= temp_val; i--){ //Loop through the array and shift everything over
+    for (int i{m_count-1}; i >= temp_val; i--){ //Loop through the array and shift everything over one array index higher
         arr_data[i+1] = arr_data[i];
         arr_year[i+1] = arr_year[i];
     }
@@ -225,8 +231,8 @@ void Time_Series::arr_resize(){
     delete[] arr_data; 
     delete[] arr_year;
 
-    arr_data = temp_data; //assigning arr_data address to the new temp_data address
-    arr_year = temp_year; //assigning arr_year address to the new temp_data address
+    arr_data = temp_data; //assigning arr_data pointer to the new temp_data address
+    arr_year = temp_year; //assigning arr_year pointer to the new temp_data address
     temp_data = nullptr;
     temp_year = nullptr;
 }

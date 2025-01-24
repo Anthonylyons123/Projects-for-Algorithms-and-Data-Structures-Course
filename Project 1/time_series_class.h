@@ -27,6 +27,8 @@ class Time_Series {
     int m_count{0}; //Number of elements in the array
     std::string s_name; //Series Name
     std::string s_code; //Series Code
+    std::string c_name; //Country Name
+    std::string c_cf; //Country Code Feild
 
     //Helper functions
     void arr_shift(int temp_val, int year, double data);
