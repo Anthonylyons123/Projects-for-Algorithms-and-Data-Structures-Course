@@ -17,7 +17,7 @@ Time_Series::~Time_Series(){
     arr_data = nullptr;
 }
 
-void Time_Series::LOAD (std::string file){ 
+void Time_Series::LOAD (std::string str){ 
     delete[] arr_data; //Delete the old array's when a new file is loaded
     delete[] arr_year;
 
@@ -31,11 +31,11 @@ void Time_Series::LOAD (std::string file){
 
     std::string data_string;
 
-    std::ifstream file1 (file); //opens the file                                      
-    std::getline (file1, c_name, ','); //Makes a string with Country Name 
-    std::getline (file1, c_cf, ','); //Makes a string with Country Code
-    std::getline (file1, s_name, ','); //Makes a string with Series Name
-    std::getline (file1, s_code, ','); //Makes a string with Series Code
+    std::stringstream file1 (str); //opens the file  
+    std::getline (file1, m_c_name, ','); //Makes a string with Country Name 
+    std::getline (file1, m_c_code, ','); //Makes a string with Country Code
+    std::getline (file1, m_s_name, ','); //Makes a string with Series Name
+    std::getline (file1, m_s_code, ','); //Makes a string with Series Code
 
     while (std::getline (file1, data_string, ',')){ //Takes the data and inputs it into the dynamically allocated data and year array
         /*
@@ -43,7 +43,6 @@ void Time_Series::LOAD (std::string file){
 
             I got the std::stod command and c_str() from chatgbt
         */
-       
         double data = std::stod(data_string.c_str()); //Converts the string to double
         does_arr_need_resized(); 
         
