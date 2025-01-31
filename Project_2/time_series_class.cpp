@@ -62,7 +62,7 @@ void Time_Series::LOAD (std::string str){
 }
 
 void Time_Series::PRINT(){
-    if(m_count == 0){ //Checks if there is data to print
+    if (m_count == 0){ //Checks if there is data to print
         std::cout << "failure" << std::endl;
         return;
     }
@@ -75,7 +75,7 @@ void Time_Series::PRINT(){
 void Time_Series::ADD(double data, int year){
     int arr_loc{0};
     if (data == -1){ //Check if data is invalid
-        std::cout << "failure" << std::endl;
+        //std::cout << "failure" << std::endl;
         return;
     } else {
         if (year < arr_year[0]){ //If year is smaller than the smallest entry put new data at start of array

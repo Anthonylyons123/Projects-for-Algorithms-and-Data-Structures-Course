@@ -75,9 +75,10 @@ void Linkedlist::list(){
         current = current->m_next;
         std::cout << current->m_s_name << " ";
     }
+    std::cout << "\n";
 }
 
-void Linkedlist::add (std::string series_code, double data, int year){
+void Linkedlist::add (std::string series_code, int year,double data){
     Time_Series *looper;
     looper = m_head;
     while (looper != nullptr){
@@ -87,9 +88,10 @@ void Linkedlist::add (std::string series_code, double data, int year){
         }
         looper = looper->m_next;
     }
+    std::cout << "failure" << std::endl;
 }
 
-void Linkedlist::update(std::string series_code, double data, int year){
+void Linkedlist::update (std::string series_code, int year, double data){
     Time_Series *looper;
     looper = m_head;
     while (looper != nullptr){
@@ -99,6 +101,7 @@ void Linkedlist::update(std::string series_code, double data, int year){
         }
         looper = looper->m_next;
     }
+    std::cout << "failure" << std::endl;
 }
 
 void Linkedlist::print(std::string series_code){
@@ -111,4 +114,84 @@ void Linkedlist::print(std::string series_code){
         }
         looper = looper->m_next;
     }
+    std::cout << "failure" << std::endl;
+}
+
+void Linkedlist::DELETE(std::string series_code){
+    Time_Series *before = m_head;
+    Time_Series *current = m_head;
+    Time_Series *after = m_head;
+    
+    if (current == nullptr){ //Nothing in the list
+        std::cout << "failure" <<std::endl;
+        return;
+    } else {
+        if (current->m_s_code == series_code){ // Case 1: Node we want to delete is the first node in the list
+            if (current->m_next == nullptr){ //Checking if there is only one node in the linked list
+                delete current;
+                m_head = nullptr;
+                std::cout << "success" <<std::endl;
+                return;
+            } else {
+                after = after->m_next; //Go to the next node in the list
+                delete current; // Delete the node we want
+                current = nullptr; 
+                before = after; //Point the node before the node we want to the node after the one we want 
+                m_head = before; //Assign the head to the new head of the linked list
+                std::cout << "success" <<std::endl;
+                return;
+            }
+
+        } else {
+            current = current->m_next;
+            after = after->m_next;
+            while (current != nullptr){ // Case 2: node we want to delete is somewhere in the middle of the linked list 
+                if (current->m_s_code == series_code){
+                    after = after->m_next; //Go to the next node in the list
+                    delete current; // Delete the node we want
+                    current = nullptr; 
+                    before->m_next = after; //Point the node before the node we want to the node after the one we want
+                    std::cout << "success" <<std::endl;
+                    return;
+                }
+                before = before->m_next;
+                current = current->m_next;
+                after = after->m_next;
+            }
+        }
+    }
+    std::cout << "failure" <<std::endl;
+}
+
+void Linkedlist::biggest(){
+    std::string series_code;
+    double biggest_mean{0};
+    double new_mean{0};
+
+    Time_Series *looper;
+    looper = m_head;
+    
+    if (looper == nullptr){
+        std::cout << "failure" << std::endl;
+        return;
+    } else {
+        while (looper != nullptr){
+            for (int n{0}; n < looper->m_count; ++n){
+                new_mean = looper->arr_data[n];
+            }
+            new_mean = (new_mean/looper->m_count);
+
+            if (new_mean > biggest_mean){
+                biggest_mean = new_mean;
+                series_code = looper->m_s_code;
+            } 
+            looper = looper->m_next;
+        }        
+        if (biggest_mean != 0){
+            std::cout << series_code <<std::endl;
+        } else {
+            std::cout << "failure" <<std::endl;
+        }
+    }
+
 }
