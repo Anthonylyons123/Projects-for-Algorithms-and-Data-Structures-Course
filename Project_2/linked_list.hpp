@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "time_series_class.h"
+#include "time_series_class.hpp"
 
 #ifndef linked_list
 #define linked_list
@@ -16,6 +16,7 @@ class Linkedlist {
     void print(std::string series_code);
     void DELETE(std::string series_code);
     void biggest();
+    void deletelinkedlist();
 
     private:
     Time_Series *m_head;

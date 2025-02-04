@@ -6,7 +6,8 @@
 class Time_Series {
     
     public:
-    
+
+    private:
     Time_Series(); // Constructor
     ~Time_Series(); // Destructor
 
@@ -19,7 +20,7 @@ class Time_Series {
     bool is_monotonic();
     void best_fit(double &m, double &b);
     
-    private:
+
     // Member Variables
     int* arr_year; //DAA for years
     double* arr_data; //DAA for the data

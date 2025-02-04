@@ -2,7 +2,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "time_series_class.h"
+#include "time_series_class.hpp"
 
 Time_Series::Time_Series(){
     arr_year = new int[2];

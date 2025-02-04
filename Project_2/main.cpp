@@ -2,8 +2,8 @@
 #include <sstream>
 #include <fstream>
 
-#include "time_series_class.h"
-#include "linked_list.h"
+#include "time_series_class.hpp"
+#include "linked_list.hpp"
 
 int main();
 
