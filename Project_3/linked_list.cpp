@@ -12,7 +12,8 @@ Linkedlist::~Linkedlist(){ //Destructor
     deletelinkedlist();
 }
 
-void Linkedlist::load(std::string country){
+void Linkedlist::load(std::string country, std::string filename){
+    m_country_name = country;
     std::string line; 
     std::string next_line;
 
@@ -21,7 +22,7 @@ void Linkedlist::load(std::string country){
     Time_Series* node = new Time_Series; //Creating the first node of a new linked list
     m_head = node;
 
-    std::ifstream info_file ("lab2_multidata.csv");
+    std::ifstream info_file (filename);
     std::getline(info_file, line); //loads the first line of the lab2_multidata file into line
 /*
     CITATION:
@@ -210,4 +211,21 @@ void Linkedlist::deletelinkedlist(){
         current = temp;
     }
     m_head = nullptr; //update head to point to nullptr
+}
+
+double Linkedlist::series_code_mean(std::string Series_Code){
+    Time_Series *temp = m_head;
+    double mean{0};
+
+    while (temp != nullptr){
+        if ((temp->m_s_code == Series_Code) && (temp->m_count > 0)){ //Find the series code that we are looking for and make sure that we have valid data for this timeseries
+            for (int n{0}; n < temp->m_count; ++n){ //Adding up all of the values stored in the data array
+                mean += temp->arr_data[n];
+            }
+            return mean /= temp->m_count; //Return the mean if we have valid data 
+        }
+        temp = temp->m_next; //Loop through countries linked list
+    }
+    return -1; //Return -1 if no valid data
+
 }

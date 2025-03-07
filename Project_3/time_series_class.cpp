@@ -141,14 +141,14 @@ double Time_Series::mean(){
     double mean_value{0};
 
     if (m_count == 0){ //Check if there is any data
-        std::cout << "failure" << std::endl;
+        // std::cout << "failure" << std::endl;
         return 0; //If no data return 0
     } else {
         for (int i{0}; i < m_count; i++){
             mean_value += arr_data[i]; //Geting the total data
         }
         mean_value = (mean_value/m_count); //Calculating the mean
-        std::cout << "mean is " << mean_value << std::endl; //If there is data output that result
+        // std::cout << "mean is " << mean_value << std::endl; //If there is data output that result
     }
     return 0;
 }

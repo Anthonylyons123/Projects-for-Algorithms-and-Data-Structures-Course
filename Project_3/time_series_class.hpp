@@ -39,7 +39,6 @@ class Time_Series {
     //New stuff for Project 2
     Time_Series *m_next;
     friend class Linkedlist;
-    friend class Tree;
     
 }; 
 

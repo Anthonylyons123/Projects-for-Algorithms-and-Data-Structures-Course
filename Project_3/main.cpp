@@ -11,12 +11,40 @@ int main();
 int main(){
 
     Tree temp;
+    std::string command;
 
-    temp.Tree_load("lab2_multidata.csv");
-
-    for (int i{0}; i < 10; i++){
-        std::cout << temp.m_arr_point[i] << std::endl; 
+    while (true){
+        std::cin >> command;
+        if (command == "LOAD"){
+            std::cin >> command; 
+            temp.Tree_load(command);
+            std::cout << "success" <<std::endl;
+        } else if (command == "LIST"){
+            std::cin >> command;
+            temp.Tree_list(command);
+        } else if (command == "RANGE"){
+            std::cin >> command;
+            temp.Tree_range(command);
+        } else if (command == "BUILD"){
+            std::cin >> command;
+            temp.Tree_build(command);
+            std::cout << "success" << "\n";
+        } else if (command == "FIND"){
+            double mean;
+            std::cin >> mean;
+            std::cin >> command;
+            temp.Tree_find(mean, command);
+        } else if (command == "DELETE"){
+            std::cin >> command;
+            temp.Tree_delete(command);
+        } else if (command == "LIMITS"){
+            std::cin >> command;
+            temp.Tree_limits(command);
+        } else if (command == "EXIT"){
+            return 0;
+        }
     }
+
 
     // Linkedlist temp;
     // std::string command;
