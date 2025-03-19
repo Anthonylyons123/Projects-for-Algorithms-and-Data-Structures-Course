@@ -24,6 +24,7 @@ class Linkedlist {
 
     Time_Series *m_head;
     std::string m_country_name;
+    std::string m_country_code;
 
     friend class Tree;
 };

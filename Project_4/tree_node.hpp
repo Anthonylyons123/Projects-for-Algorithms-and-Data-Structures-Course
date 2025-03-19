@@ -13,8 +13,8 @@ class Tree_Node{
     //~Tree_Node();
     Tree_Node *m_left;
     Tree_Node *m_right;
-    double m_max_range{0};
-    double m_min_range{0};
+    double m_max_mean{0};
+    double m_min_mean{0};
     int m_min_mean_loc{0};
     int m_max_mean_loc{0};
 

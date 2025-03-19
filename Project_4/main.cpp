@@ -40,6 +40,17 @@ int main(){
         } else if (command == "LIMITS"){
             std::cin >> command;
             temp.Tree_limits(command);
+        } else if (command == "LOOKUP"){
+            std::cin >> command;
+            temp.Tree_lookup(command);
+        } else if (command == "REMOVE"){
+            std::cin >> command;
+            temp.Tree_remove(command);
+        } else if (command == "INSERT"){
+            std::string countrycode;
+            std::cin >> countrycode;
+            std::cin >> command;
+            temp.Tree_insert (countrycode, command);
         } else if (command == "EXIT"){
             return 0;
         }

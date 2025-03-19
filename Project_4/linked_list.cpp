@@ -43,6 +43,8 @@ void Linkedlist::load(std::string country, std::string filename){
         if ((node->m_c_name)== country){ //checks if the country is the country we are looking for
             
             node->LOAD(line); //Calls Time_Series LOAD function can populates the node with infomation
+            m_country_code = node->m_c_code;
+
             node->m_next = new Time_Series; //Creating a new node to be the "next" node in the list
             
             std::getline(info_file, next_line); //Geting the next line of the lab2_multidata file
