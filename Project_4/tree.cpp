@@ -67,6 +67,7 @@ void Tree::Tree_list(std::string Country_Name){
         }
     }
 }
+
 void Tree::Tree_range(std::string Series_Code){
     double min_mean{0};
     double max_mean{0};
@@ -116,6 +117,7 @@ void Tree::Tree_find(double mean, std::string opperation){
 void Tree::Tree_delete(std::string Country_Name){
     Tree_delete_recursive(m_series_code, Country_Name, true); //Pass the root, and country name into the recursive function
 }
+
 void Tree::Tree_limits(std::string condition){
     Tree_limits_recursive(root, condition); //Pass the root, and condition into the recursive function
     std::cout << "\n";
@@ -124,27 +126,26 @@ void Tree::Tree_limits(std::string condition){
 void Tree::Tree_lookup(std::string countrycode){
     Tree_search_table(countrycode, true);
 }
+
 void Tree::Tree_remove(std::string countrycode){
     
     int remove = Tree_search_table(countrycode, false);
 
-    if (remove == -1){
+    if (remove == -1){ //If the counnty code isnt in the arrayy print failure else remove that country from the array
         std::cout << "failure" << "\n";
         return;
     } else {
 
-        //m_mean_values[remove] = -100; // Set the mean value at this location to -100 so we know nullptr is stored at this location in m_list
-
         Tree_delete_recursive(m_series_code, m_list[remove]->m_country_name, false); // Delete the tree
-        delete m_list[remove];
+        delete m_list[remove]; // Delete the country
         m_list[remove] = nullptr; //Set this array location to nullptr;
 
         std::cout << "success" << "\n";
-        --m_items_stored;
+        --m_items_stored; // Decrement the number of items stores
 
     }
-
 }
+
 void Tree::Tree_insert(std::string countrycode, std::string filename){
 
     // If Tree_search_table returns -1 then the country we are trying to add isnt already stored
@@ -161,8 +162,8 @@ void Tree::Tree_insert(std::string countrycode, std::string filename){
             std::string secondword;
             std::getline(country_name, secondword, ',');
             
-            if (secondword == countrycode){
-    
+            if (secondword == countrycode){ // If the "secondword" (country code) is the same as the country code we are trying to insert, insert it
+
                 m_temp_arr = secondword;
                 int index = Tree_prime_Hash();
     
@@ -186,7 +187,6 @@ void Tree::Tree_insert(std::string countrycode, std::string filename){
     }
 
 }
-
 
 
 //------------------------------------------- Helper Functions --------------------------------------------------------//
@@ -508,9 +508,9 @@ int Tree::Tree_prime_Hash(){
 }
 
 int Tree::Tree_sec_Hash(int W){
-    
+   
     int result = (W/512) % 512;
-
+    
     if (result % 2 == 0){
         return result+1; //hash two is even so return result + 1
     } else {
@@ -574,6 +574,7 @@ int Tree::Tree_search_table(std::string countrycode, bool check){
 
 bool Tree::Tree_is_CCode_stored(std::string countrycode){
 
+    // Checking if the conutry code is stored in the array
     for (int i{0}; i < 512; i++){
         if (m_stored_or_not[i] == true){
             if (m_list[i]->m_country_code == countrycode){
