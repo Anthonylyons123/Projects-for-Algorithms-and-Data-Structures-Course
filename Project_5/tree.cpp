@@ -7,6 +7,19 @@
 
 #include "tree.hpp"
 
+
+/*
+    CITATION:
+    I was asking chatgbt how to access and loop through maps
+
+    I then got a result of "map[map_location]" for accessing indivudal locations of a map
+    and this for looping through a map "for (auto& [key, value at that key]: map)"
+
+    I used this logic in my Tree_updateedges, Tree_adjacent, Tree_path, Tree_relationships fucntions. I figured it would be
+    cleaner to cite this once at the start of the code rather than in each of then functions
+*/     
+
+
 Tree::Tree(){
 
 }
@@ -51,10 +64,9 @@ void Tree::Tree_build(std::string Series_Code){
 
     Tree_populate_mean_array(Series_Code); // Sorting the mean values
     root = new Tree_Node;
-    Tree_build_recursive(Series_Code, root, m_mean_values[0], m_mean_values[m_items_stored-1]);
-    //print(root);  
-
+    Tree_build_recursive(Series_Code, root, m_mean_values[0], m_mean_values[m_items_stored-1]); 
 }
+
 void Tree::Tree_find(double mean, std::string opperation){
 
     Tree_find_recursive(root, mean, opperation); //Pass the root, mean, and operation into the recursive function
@@ -78,14 +90,17 @@ void Tree::Tree_initialize(){
 }
 
 void Tree::Tree_updateedges(std::string seriescode, double threshold, std::string relation){
-    bool new_rel_or_not{false};
+    bool new_rel_or_not{false}; // Condition for outputing success of failure
+    
+    // Reseting the relationship vector
     m_relationvec.clear();
     m_relationvec_size = 0;
 
+    //Finding all of the relationships for the inputed series code
     Tree_build(seriescode);
     Tree_find(threshold, relation);
 
-
+    //Creating a Relationship object for thr inputed data
     Relationship temp = {seriescode, threshold, relation};
 
     // Checking to make sure we havent already added the relationship
@@ -100,11 +115,11 @@ void Tree::Tree_updateedges(std::string seriescode, double threshold, std::strin
 
     }
 
+    // Actually populating the graph
     for (int i{0}; i < m_relationvec_size; i++){
         for (int j{0}; j < m_relationvec_size; j++){
             // Skipping the case where i = j because we dont want to make a relationship for a country with itself
             if (i != j){
-
                 // Adding the relationship
                 m_graph[m_relationvec[i]][m_relationvec[j]].push_back(temp);
                 new_rel_or_not = true;
@@ -124,21 +139,21 @@ void Tree::Tree_updateedges(std::string seriescode, double threshold, std::strin
 
 void Tree::Tree_adjacent(std::string countrycode){
 
-    
     std::string condition;
-
+    // Finding country code
     for (int i{0}; i < m_items_stored; i++){
         if (m_list[i]->m_country_code == countrycode){
             condition = m_list[i]->m_country_name;
         } 
     }
-
-        
+    
+    // Checks if country is in the graph
     if (m_graph.find(condition) == m_graph.end()){
         std::cout << "failure" << std::endl;
         return;
     }
 
+    //Ckecks if there are no relationships for that country    
     if (m_graph[condition].size() == 0){
         std::cout << "none" << "\n";
         return;
@@ -226,7 +241,7 @@ void Tree::Tree_relationships(std::string cCode1, std::string cCode2){
 
     auto& key1 = m_graph[country1];
 
-    if (key1.find(country2) != key1.end()){
+    if (key1.find(country2) != key1.end()){ //Checks to see if country 2 is in country 1's map 
         for (auto& relationvec : m_graph[country1][country2]) {
             std::cout << "(" << relationvec.seriescode << " " << relationvec.relation << " " << relationvec.threshold << ") ";
         }

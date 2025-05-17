@@ -31,7 +31,7 @@ class Tree {
     private:
     //Member variables
 
-    std::map <std::string, std::map <std::string, std::vector<Relationship> >> m_graph;
+    std::map <std::string, std::map <std::string, std::vector<Relationship>>> m_graph;
     std::vector<std::string> m_relationvec;
     int m_relationvec_size {0};
 
